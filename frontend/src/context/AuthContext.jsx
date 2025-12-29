@@ -1,31 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-
-/**
- * Authentication Context
- * 
- * This context provides authentication state and methods throughout the app:
- * - User information (when logged in)
- * - Login status
- * - Login/logout methods
- * - Loading state during authentication checks
- * 
- * Note: Currently stores data in localStorage - will integrate with backend later
- */
-
-// Create the context
-const AuthContext = createContext();
-
-/**
- * Custom hook to use the AuthContext
- * Provides easy access to authentication state and methods
- */
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+import { useState, useEffect } from 'react';
+import { AuthContext } from './authContext.js';
 
 /**
  * AuthProvider Component

@@ -6,7 +6,8 @@
  */
 
 // API base URL (will be configured later)
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+// Using import.meta.env for Vite instead of process.env
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 /**
  * Get authentication token from localStorage

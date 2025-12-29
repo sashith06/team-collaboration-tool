@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext.jsx';
+import { useAuth } from './context/useAuth.js';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Import page components
