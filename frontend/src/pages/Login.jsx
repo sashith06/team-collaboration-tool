@@ -79,37 +79,24 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Validate form
+    // Validate form first
     const formErrors = validateForm();
-    
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
 
-    // Clear any existing errors
     setErrors({});
-    
-    // Set loading state
     setIsLoading(true);
 
     try {
-      // TODO: Replace this with actual API call later
-      // For now, simulate a successful login for demo purposes
-      const mockUser = {
-        id: 1,
-        name: 'Demo User',
-        email: formData.email
-      };
-      const mockToken = 'demo-token-' + Date.now();
-
-      const result = await login(mockUser, mockToken);
+      // Call login() from AuthContext — this now POSTs to the backend
+      // Backend route: POST /api/auth/login (will be built in the next phase)
+      const result = await login(formData.email, formData.password);
 
       if (result.success) {
-        // Login successful, navigate to dashboard
         navigate('/dashboard');
       } else {
-        // Login failed, show error
         setErrors({ submit: result.error || 'Login failed. Please try again.' });
       }
     } catch (error) {

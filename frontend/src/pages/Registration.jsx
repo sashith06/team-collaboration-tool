@@ -112,7 +112,7 @@ const Registration = () => {
     setIsLoading(true);
 
     try {
-      // Call register function from auth context
+      // Call register() from AuthContext — this now POSTs to the backend
       const result = await register({
         fullName: formData.fullName,
         email: formData.email,
@@ -120,10 +120,9 @@ const Registration = () => {
       });
 
       if (result.success) {
-        // Registration successful, navigate to dashboard
-        navigate('/dashboard');
+        // Account created in MongoDB — redirect to login so the user can sign in
+        navigate('/login');
       } else {
-        // Registration failed, show error
         setErrors({ submit: result.error || 'Registration failed. Please try again.' });
       }
     } catch (error) {

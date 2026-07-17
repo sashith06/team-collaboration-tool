@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { AuthContext } from './authContext.js';
+
+// The base URL of your Express backend
+// All API calls will be prefixed with this
+const API_URL = 'http://localhost:5000/api';
 
 /**
  * AuthProvider Component
@@ -48,22 +53,28 @@ export const AuthProvider = ({ children }) => {
 
   /**
    * Login function
-   * Currently just stores user data locally - will connect to API later
+   * Calls POST /api/auth/login on the backend
+   * Backend will be built in the next phase (JWT)
    */
-  const login = (userData, token) => {
+  const login = async (email, password) => {
     try {
-      // Store user data and token
-      localStorage.setItem('user', JSON.stringify(userData));
+      // Send credentials to the backend login route
+      const response = await axios.post(`${API_URL}/auth/login`, { email, password });
+      const { token, user: userData } = response.data;
+
+      // Persist the token and user in localStorage so they survive page refresh
       localStorage.setItem('authToken', token);
-      
-      // Update state
+      localStorage.setItem('user', JSON.stringify(userData));
+
+      // Update React state
       setUser(userData);
       setIsAuthenticated(true);
-      
+
       return { success: true };
     } catch (error) {
-      console.error('Error during login:', error);
-      return { success: false, error: 'Failed to save login data' };
+      const message = error.response?.data?.message || 'Login failed. Please try again.';
+      console.error('Login error:', message);
+      return { success: false, error: message };
     }
   };
 
@@ -90,27 +101,28 @@ export const AuthProvider = ({ children }) => {
 
   /**
    * Register function
-   * Currently just handles the data - will connect to API later
+   * Calls POST /api/auth/register on the backend
+   * Saves the new user to MongoDB via Mongoose
    */
-  const register = (userData) => {
+  const register = async ({ fullName, email, password, role }) => {
     try {
-      // TODO: This will make an API call to register the user
-      // For now, we'll just simulate a successful registration
-      console.log('Registration data:', userData);
-      
-      // Simulate successful registration by auto-logging in the user
-      const mockUser = {
-        id: Date.now(), // Mock ID
-        name: userData.fullName,
-        email: userData.email
-      };
-      
-      const mockToken = 'mock-jwt-token-' + Date.now();
-      
-      return login(mockUser, mockToken);
+      // POST the form data to the backend registration endpoint
+      // The backend will: validate → check duplicate → hash password → save to DB
+      const response = await axios.post(`${API_URL}/auth/register`, {
+        name: fullName,   // backend field is "name", form field is "fullName"
+        email,
+        password,
+        role: role || 'Member',
+      });
+
+      // If we reach here, the backend returned 201 (success)
+      // The response body: { success: true, message: "User registered successfully" }
+      return { success: true, message: response.data.message };
     } catch (error) {
-      console.error('Error during registration:', error);
-      return { success: false, error: 'Registration failed' };
+      // error.response.data.message is the error message from the backend
+      const message = error.response?.data?.message || 'Registration failed. Please try again.';
+      console.error('Registration error:', message);
+      return { success: false, error: message };
     }
   };
 
