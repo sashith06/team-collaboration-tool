@@ -121,38 +121,35 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-blue-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="relative sm:mx-auto sm:w-full sm:max-w-md">
         {/* Header Section */}
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+          <h2 className="text-4xl font-bold text-gray-900 mb-2">
             Welcome Back
           </h2>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="text-lg text-gray-600 mb-8">
             Sign in to your account to continue
           </p>
         </div>
       </div>
 
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+      <div className="relative mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="bg-white py-10 px-8 shadow-2xl sm:rounded-3xl border border-gray-100">
           {/* Login Form */}
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* General Error Message */}
             {errors.submit && (
-              <div className="rounded-md bg-red-50 p-4">
-                <div className="text-sm text-red-700">
+              <div className="rounded-2xl bg-red-50 border border-red-200 p-4">
+                <div className="text-sm text-red-700 font-medium">
                   {errors.submit}
                 </div>
               </div>
             )}
 
             {/* Email Field */}
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Email Address
-              </label>
-              <div className="mt-1">
+            <div className="group">
+              <div className="relative">
                 <input
                   id="email"
                   name="email"
@@ -161,23 +158,35 @@ const Login = () => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`appearance-none block w-full px-3 py-2 border ${
-                    errors.email ? 'border-red-300' : 'border-gray-300'
-                  } rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+                  className={`peer w-full px-4 py-4 border-2 rounded-2xl text-gray-900 placeholder-transparent focus:outline-none transition-all duration-300 bg-gray-50/50 ${
+                    errors.email 
+                      ? 'border-red-300 focus:border-red-500' 
+                      : 'border-gray-200 focus:border-indigo-500 hover:border-gray-300'
+                  }`}
                   placeholder="Enter your email address"
                 />
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
-                )}
+                <label
+                  htmlFor="email"
+                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                    formData.email
+                      ? '-top-3 text-sm bg-white px-2 text-indigo-600 font-medium'
+                      : 'top-4 text-gray-500 peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-500 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-indigo-600 peer-focus:bg-white peer-focus:px-2 peer-focus:font-medium'
+                  }`}
+                >
+                  Email Address
+                </label>
+                <div className="absolute inset-0 rounded-2xl ring-2 ring-indigo-500/20 opacity-0 peer-focus:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               </div>
+              {errors.email && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.email}
+                </p>
+              )}
             </div>
 
             {/* Password Field */}
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="mt-1">
+            <div className="group">
+              <div className="relative">
                 <input
                   id="password"
                   name="password"
@@ -186,15 +195,30 @@ const Login = () => {
                   required
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`appearance-none block w-full px-3 py-2 border ${
-                    errors.password ? 'border-red-300' : 'border-gray-300'
-                  } rounded-md placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm`}
+                  className={`peer w-full px-4 py-4 border-2 rounded-2xl text-gray-900 placeholder-transparent focus:outline-none transition-all duration-300 bg-gray-50/50 ${
+                    errors.password 
+                      ? 'border-red-300 focus:border-red-500' 
+                      : 'border-gray-200 focus:border-indigo-500 hover:border-gray-300'
+                  }`}
                   placeholder="Enter your password"
                 />
-                {errors.password && (
-                  <p className="mt-1 text-sm text-red-600">{errors.password}</p>
-                )}
+                <label
+                  htmlFor="password"
+                  className={`absolute left-4 transition-all duration-300 pointer-events-none ${
+                    formData.password
+                      ? '-top-3 text-sm bg-white px-2 text-indigo-600 font-medium'
+                      : 'top-4 text-gray-500 peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-500 peer-focus:-top-3 peer-focus:text-sm peer-focus:text-indigo-600 peer-focus:bg-white peer-focus:px-2 peer-focus:font-medium'
+                  }`}
+                >
+                  Password
+                </label>
+                <div className="absolute inset-0 rounded-2xl ring-2 ring-indigo-500/20 opacity-0 peer-focus:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
               </div>
+              {errors.password && (
+                <p className="mt-2 text-sm text-red-600">
+                  {errors.password}
+                </p>
+              )}
             </div>
 
             {/* Remember Me and Forgot Password */}
@@ -204,63 +228,61 @@ const Login = () => {
                   id="remember-me"
                   name="remember-me"
                   type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded transition-colors duration-200"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700 font-medium">
                   Remember me
                 </label>
               </div>
 
               <div className="text-sm">
-                <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot your password?
+                <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out border-b border-transparent hover:border-indigo-500">
+                  Forgot password?
                 </a>
               </div>
             </div>
 
             {/* Submit Button */}
-            <div>
+            <div className="pt-4">
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                className={`group relative w-full flex justify-center py-4 px-6 border border-transparent text-base font-medium rounded-2xl text-white transition-all duration-300 transform ${
                   isLoading 
                     ? 'bg-gray-400 cursor-not-allowed' 
-                    : 'bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500'
-                } transition duration-150 ease-in-out`}
+                    : 'bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/20 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0'
+                }`}
               >
+                <span className="absolute inset-0 w-full h-full rounded-2xl bg-gradient-to-r from-indigo-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                
                 {isLoading ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Signing In...
-                  </>
+                  <span className="relative">Signing In...</span>
                 ) : (
-                  'Sign In'
+                  <span className="relative">Sign In</span>
                 )}
               </button>
             </div>
           </form>
 
           {/* Link to Registration */}
-          <div className="mt-6">
+          <div className="mt-8">
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Don't have an account?</span>
+                <span className="px-4 bg-white text-gray-500 font-medium">Don't have an account?</span>
               </div>
             </div>
 
             <div className="mt-6 text-center">
               <button
                 onClick={() => navigate('/register')}
-                className="font-medium text-blue-600 hover:text-blue-500 transition duration-150 ease-in-out"
+                className="group font-semibold text-indigo-600 hover:text-indigo-500 transition duration-150 ease-in-out transform hover:scale-105"
               >
-                Create account here
+                <span className="border-b-2 border-transparent group-hover:border-indigo-500 transition-colors duration-200">
+                  Create account here
+                </span>
               </button>
             </div>
           </div>
