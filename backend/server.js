@@ -19,6 +19,9 @@ const connectDB = require("./config/db");
 // Import the auth router — handles all routes starting with /api/auth
 const authRoutes = require("./routes/authRoutes");
 
+// Import the project router — handles all routes starting with /api/projects
+const projectRoutes = require("./routes/projectRoutes");
+
 // ─────────────────────────────────────────────
 // 2. CONNECT TO DATABASE
 // ─────────────────────────────────────────────
@@ -60,12 +63,12 @@ app.get("/", (req, res) => {
   res.send("Backend Running");
 });
 
-// Mount the auth router at the "/api/auth" prefix
-// app.use(prefix, router) means:
-//   any request to /api/auth/... is forwarded to authRoutes.js
-// Combined with router.post("/register") inside authRoutes.js:
-//   POST /api/auth/register → registerUser controller
+// Auth routes — POST /api/auth/register and POST /api/auth/login
 app.use("/api/auth", authRoutes);
+
+// Project routes — all CRUD operations under /api/projects
+// Every route here requires a valid JWT (handled inside projectRoutes.js)
+app.use("/api/projects", projectRoutes);
 
 // ─────────────────────────────────────────────
 // 6. START THE SERVER
